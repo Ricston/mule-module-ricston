@@ -7,6 +7,10 @@
  */
 package org.mule.module.ricston.config;
 
+import org.mule.config.spring.parsers.generic.ChildDefinitionParser;
+import org.mule.config.spring.parsers.specific.RouterDefinitionParser;
+import org.mule.module.ricston.IgnoreReplyMulticastingRouter;
+import org.mule.module.ricston.IgnoreReplyPassThroughRouter;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
@@ -17,10 +21,10 @@ public class RicstonNamespaceHandler extends NamespaceHandlerSupport
 {
     public void init()
     {
-        //TODO you need to register a definition parser for each element defined in META-INF/mule-ricston.xsd
-        //Mule provides many parsrs out of the box which are suitable for most configuration parsing. see
-        //http://muledocs.org/Xml+Configuration for more information.
-        //for example:
-        //    registerBeanDefinitionParser("foo", new OrphanDefinitionParser(RicstonFoo.class, true));
+        registerBeanDefinitionParser("ignore-reply-multicasting-router", new RouterDefinitionParser(IgnoreReplyMulticastingRouter.class));
+        registerBeanDefinitionParser("ignore-reply-all", new ChildDefinitionParser("messageProcessor", IgnoreReplyMulticastingRouter.class));
+
+        registerBeanDefinitionParser("ignore-reply-pass-through-router", new RouterDefinitionParser(IgnoreReplyPassThroughRouter.class));
+        registerBeanDefinitionParser("ignore-reply-pass-through", new ChildDefinitionParser("messageProcessor", IgnoreReplyPassThroughRouter.class));
     }
 }

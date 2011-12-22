@@ -14,64 +14,46 @@
                 schemaLocation = "http://www.mulesoft.org/schema/mule/schemadoc/3.2/mule-schemadoc.xsd"/>
 
     <xsd:annotation>
-        <xsd:documentation>TODO: description</xsd:documentation>
+        <xsd:documentation>Custom Money Super Market Mule components</xsd:documentation>
         <xsd:appinfo>
             <schemadoc:short-name>Ricston</schemadoc:short-name>
             <schemadoc:page-title>Ricston Module</schemadoc:page-title>
         </xsd:appinfo>
     </xsd:annotation>
 
-
-    <!--
-    TODO define the emelements that can be used to configure components in ths module.
-
-    Mule provides a set of base schema types for all elements in Mule such as -
-    - Transformers
-    - Inbound and Outbound Routers
-    - Filters
-    - etc
-
-    For example -
-
-    <xsd:element name="is-xml-filter" type="mule:abstractFilterType" substitutionGroup="mule:abstract-filter"/>
-
-    <xsd:complexType name="xmlTransformerType">
-        <xsd:complexContent>
-            <xsd:extension base="mule:abstractTransformerType">
-                <xsd:attribute name="outputEncoding" type="xsd:string"/>
-            </xsd:extension>
-        </xsd:complexContent>
-    </xsd:complexType>
-
-    <xsd:element name="dom-to-xml" type="xmlTransformerType" substitutionGroup="mule:abstract-transformer"/>
-    -->
-
-    <!--
-
-    When writing schema for simple property types you can just add xsd:attribute elements
-    For complex properties with multiple values you can add custom elements and register
-    a definition parser with ricstonNamespaceHandler.
-
-    For example -
-
-    <xsd:attribute name="swizzleSize" type="mule:substitutableInt">
+    
+    <xsd:element name="ignore-reply-multicasting-router" type="mule:multipleEndpointFilteringOutboundRouterType"
+                 substitutionGroup="mule:abstract-outbound-router">
         <xsd:annotation>
             <xsd:documentation>
-                Sets the amount of swizzle available for your twizzle
+                Sends the same message over multiple endpoints but returns the original payload.
             </xsd:documentation>
         </xsd:annotation>
-    </xsd:attribute>
-
-    Note the type of the attribute is mule:substitutableInt.  For non-string simple
-    types you should use mule:substitutableBoolean, mule:substitutableLong, etc since
-    these types allow property placeholders to be used instead of the actual value.
-    The property can then be set according to the properties available to the MUle instance. i.e
-
-    <ricston:some-filter name="smallTwizzler" swizzlerSize="${small.swizzle}"/>
-
-    where small.swizzle is set in a properties files or system property.  This makes it easy
-    to use the same config file for differnet environments such as Developement, UAT and Production
-
-    -->
+    </xsd:element>
+    
+    <xsd:element name="ignore-reply-all" type="mule:baseMultipleRoutesRoutingMessageProcessorType" substitutionGroup="mule:abstract-routing-message-processor">
+        <xsd:annotation>
+            <xsd:documentation>
+                Sends the same message to multiple message processors or outbound endpoints but returns the original payload.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    <xsd:element name="ignore-reply-pass-through-router" type="mule:outboundRouterType"
+                 substitutionGroup="mule:abstract-outbound-router">
+        <xsd:annotation>
+            <xsd:documentation>
+                Sends the message over a single endpoint but returns the original payload.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    <xsd:element name="ignore-reply-pass-through" type="mule:baseSingleRouteRoutingMessageProcessorType" substitutionGroup="mule:abstract-routing-message-processor">
+        <xsd:annotation>
+            <xsd:documentation>
+                Sends the message to a single message processors or outbound endpoints but returns the original payload.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
 
 </xsd:schema>
