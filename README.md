@@ -8,11 +8,10 @@ Enriches a payload Java object property.
 
 ```xml
 <mule xmlns="http://www.mulesoft.org/schema/mule/core"
-      xmlns:ricston="http://www.mulesoft.org/schema/mule/ricston"
       ...
       xsi:schemaLocation="
         ...
-        http://www.mulesoft.org/schema/mule/ricston http://www.mulesoft.org/schema/mule/ricston/3.2/mule-ricston.xsd">
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd">
 
     <flow name="Enrich">
         ...
