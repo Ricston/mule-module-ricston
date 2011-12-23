@@ -2,7 +2,7 @@
 
 ## Bean Property Expression Enricher
 
-Enriches a payload Java object property.            s
+Enriches a payload Java object property.
 
 ### Example
 
