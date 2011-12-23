@@ -38,6 +38,7 @@ payload is copied onto the original message.
       ...
       xsi:schemaLocation="
         ...
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
         http://www.mulesoft.org/schema/mule/ricston http://www.mulesoft.org/schema/mule/ricston/3.2/mule-ricston.xsd">
 
     <flow name="IgnoreAll">
@@ -67,6 +68,7 @@ payload is copied onto the original message.
       ...
       xsi:schemaLocation="
         ...
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
         http://www.mulesoft.org/schema/mule/ricston http://www.mulesoft.org/schema/mule/ricston/3.2/mule-ricston.xsd">
 
     <flow name="Ignore">
