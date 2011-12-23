@@ -9,8 +9,8 @@
     <packaging>jar</packaging>
     <name>Mule Ricston Module</name>
     <version>1.0-SNAPSHOT</version>
-    <description>Extra stuff which we find helpful for Mule</description>
-    <url>http://www.muleforge.org/projects/mule-module-ricston</url>
+    <description>A module aimed at solving common problems in Mule</description>
+    <url>https://github.com/Ricston/mule-module-ricston</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
