@@ -14,7 +14,7 @@
                 schemaLocation = "http://www.mulesoft.org/schema/mule/schemadoc/3.2/mule-schemadoc.xsd"/>
 
     <xsd:annotation>
-        <xsd:documentation>Custom Money Super Market Mule components</xsd:documentation>
+        <xsd:documentation>The Mule Ricston Module solves common problems encountered during Mule application development</xsd:documentation>
         <xsd:appinfo>
             <schemadoc:short-name>Ricston</schemadoc:short-name>
             <schemadoc:page-title>Ricston Module</schemadoc:page-title>
