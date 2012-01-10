@@ -13,13 +13,8 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <jbossts:transaction-manager/>
-    <spring:bean class="org.mule.module.ricston.TransactionAwareObjectStoreTestCase"/>
-    <vm:connector name="vmConnector">
-        <vm:queue-profile>
-            <default-persistent-queue-store/>
-        </vm:queue-profile>
-    </vm:connector>
 
+    <spring:bean class="org.mule.module.ricston.TransactionAwareObjectStoreTestCase"/>
 
     <flow name="main">
         <vm:inbound-endpoint path="in" exchange-pattern="one-way">
