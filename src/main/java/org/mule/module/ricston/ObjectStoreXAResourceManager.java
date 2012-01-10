@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) Ricston Ltd.  All rights reserved.  http://www.ricston.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
 package org.mule.module.ricston;
 
 import org.mule.api.MuleContext;
@@ -92,7 +99,6 @@ public class ObjectStoreXAResourceManager extends AbstractXAResourceManager {
     @Override
     public void recover() throws ResourceManagerSystemException {
         try {
-            Xid xid;
             String record;
 
             for (Serializable key : ((ListableObjectStore<Serializable>) transactionLog).allKeys()) {

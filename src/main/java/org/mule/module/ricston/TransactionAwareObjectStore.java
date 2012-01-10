@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) Ricston Ltd.  All rights reserved.  http://www.ricston.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
 package org.mule.module.ricston;
 
 import org.mule.api.MuleContext;
@@ -29,7 +36,7 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
     protected int maxEntries = 0;
     protected int entryTTL;
     protected int expirationInterval;
-    private final ReentrantLock lock = new ReentrantLock(true);
+    private ReentrantLock lock;
 
     public ObjectStoreXAResourceManager getResourceManager() {
         return resourceManager;
@@ -75,7 +82,6 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
         this.expirationInterval = expirationInterval;
     }
 
-
     public TransactionAwareObjectStore() {
         this.setStoreName(MuleProperties.OBJECT_STORE_DEFAULT_PERSISTENT_NAME);
         this.setPersistent(true);
@@ -84,6 +90,7 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
     @Override
     public void initialise() throws InitialisationException {
         try {
+            lock = new ReentrantLock(true);
             resourceManager = new ObjectStoreXAResourceManager(this, muleContext);
             resourceManager.start();
         } catch (Exception e) {
@@ -148,7 +155,6 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
     public void setMuleContext(MuleContext muleContext) {
         this.muleContext = muleContext;
     }
-
 
     @Override
     public void open() throws ObjectStoreException {
