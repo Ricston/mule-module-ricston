@@ -8,12 +8,10 @@
 package org.mule.module.ricston;
 
 import org.mule.api.MuleContext;
-import org.mule.api.MuleException;
 import org.mule.api.config.MuleProperties;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.lifecycle.Initialisable;
 import org.mule.api.lifecycle.InitialisationException;
-import org.mule.api.lifecycle.Startable;
 import org.mule.api.store.ListableObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
@@ -26,16 +24,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TransactionAwareObjectStore<T extends Serializable> implements ListableObjectStore<T>, Startable, Initialisable, MuleContextAware {
+public class TransactionAwareObjectStore<T extends Serializable> implements ListableObjectStore<T>, Initialisable, MuleContextAware {
 
-    protected ObjectStoreXAResourceManager resourceManager;
-    protected MuleContext muleContext;
-    protected String storeName;
-    protected boolean isPersistent;
-    protected ListableObjectStore<T> store;
-    protected int maxEntries = 0;
-    protected int entryTTL;
-    protected int expirationInterval;
+    private ObjectStoreXAResourceManager resourceManager;
+    private MuleContext muleContext;
+    private String storeName;
+    private boolean isPersistent;
+    private ListableObjectStore<T> store;
+    private int maxEntries = 0;
+    private int entryTTL;
+    private int expirationInterval;
     private ReentrantLock lock;
 
     public ObjectStoreXAResourceManager getResourceManager() {
@@ -144,11 +142,6 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
         if (lock.isHeldByCurrentThread()) {
             lock.unlock();
         }
-    }
-
-    @Override
-    public void start() throws MuleException {
-        muleContext.getRegistry().registerObject("_transactionAwareStore", this);
     }
 
     @Override

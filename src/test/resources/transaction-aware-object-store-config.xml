@@ -4,28 +4,22 @@
       xmlns:test="http://www.mulesoft.org/schema/mule/test"
       xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
       xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts"
-      xmlns:spring="http://www.springframework.org/schema/beans"
       xsi:schemaLocation="
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
         http://www.mulesoft.org/schema/mule/test http://www.mulesoft.org/schema/mule/test/3.2/mule-test.xsd
         http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/3.2/mule-vm.xsd
-        http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/3.2/mule-jbossts.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/3.2/mule-jbossts.xsd">
 
     <jbossts:transaction-manager/>
-
-    <spring:bean class="org.mule.module.ricston.TransactionAwareObjectStoreTestCase"/>
 
     <flow name="main">
         <vm:inbound-endpoint path="in" exchange-pattern="one-way">
             <xa-transaction action="BEGIN_OR_JOIN"/>
         </vm:inbound-endpoint>
-
         <idempotent-message-filter>
             <custom-object-store class="org.mule.module.ricston.TransactionAwareObjectStore"/>
         </idempotent-message-filter>
         <test:component appendString=" Received"/>
-
         <vm:outbound-endpoint path="out" exchange-pattern="one-way">
             <xa-transaction action="ALWAYS_JOIN"/>
         </vm:outbound-endpoint>
