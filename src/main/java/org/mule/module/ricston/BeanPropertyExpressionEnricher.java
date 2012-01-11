@@ -37,6 +37,7 @@ public class BeanPropertyExpressionEnricher implements ExpressionEnricher {
             Method[] finalRefObjectMethods = finalRefObject.getClass().getMethods();
             String setter = SET + capitaliseFirstLetter(properties[properties.length - 1]);
 
+            //TODO: not efficient; use getMethod(...) instead of looping
             for (Method method : finalRefObjectMethods) {
                 if (method.getName().equals(setter)) {
                     try {
@@ -57,6 +58,7 @@ public class BeanPropertyExpressionEnricher implements ExpressionEnricher {
             Method[] methods = objectToCall.getClass().getMethods();
             String getter = GET + capitaliseFirstLetter(properties[0]);
 
+            //TODO: not efficient; use getMethod(...) instead of looping
             for (Method method : methods) {
                 if (method.getName().equals(getter)) {
                     try {
