@@ -7,38 +7,38 @@
  */
 package org.mule.module.ricston;
 
-import java.util.ArrayList;
-
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleException;
-import org.mule.api.construct.FlowConstructAware;
-import org.mule.api.lifecycle.Lifecycle;
 import org.mule.api.processor.MessageProcessor;
 import org.mule.message.ExceptionMessage;
 import org.mule.processor.chain.DefaultMessageProcessorChain;
 
+import java.util.ArrayList;
+
 public class ExceptionMessageProcessorChain extends
-		DefaultMessageProcessorChain implements Lifecycle, FlowConstructAware {
+		DefaultMessageProcessorChain {
 
 	public ExceptionMessageProcessorChain(String string,
 			ArrayList<MessageProcessor> arrayList) {
 		super(string, arrayList);
 	}
 
+    @Override
 	public MuleEvent process(MuleEvent event) throws MuleException {
 		MuleEvent result = null;
 		try {
 			result = processNext(event);
-		} catch (MuleException e) {
+		} catch (Exception e) {
 			logger.info("Caught Exception");
 			event.getMessage().setPayload(
 					new ExceptionMessage(event, e, event.getFlowConstruct()
-							.getName(), event.getMessageSourceURI()));
+							.getName(), null));
 			logger.info("Invoking processor chain");
 			result = doProcess(event);
 			logger.info("Got result from processor chain="
 					+ result.getMessageAsString());
 		}
+
 		return result;
 	}
 }

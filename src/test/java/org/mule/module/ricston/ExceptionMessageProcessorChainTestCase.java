@@ -24,7 +24,7 @@ public class ExceptionMessageProcessorChainTestCase extends FunctionalTestCase
     {
         MuleClient client = new MuleClient(muleContext);
         MuleMessage result = client.send("vm://MyFlowRequest", "some data", null);
-        System.out.println(result.getPayloadAsString());    
+        assertEquals("Sad Path", result.getPayloadAsString());
     }
     
 }

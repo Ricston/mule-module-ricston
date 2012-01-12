@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:test="http://www.mulesoft.org/schema/mule/test"
-	xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:ricston="http://www.mulesoft.org/schema/mule/ricston"
-	xsi:schemaLocation="
+      xmlns:spring="http://www.springframework.org/schema/beans" xmlns:test="http://www.mulesoft.org/schema/mule/test"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:ricston="http://www.mulesoft.org/schema/mule/ricston"
+      xsi:schemaLocation="
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
         http://www.mulesoft.org/schema/mule/test http://www.mulesoft.org/schema/mule/test/3.2/mule-test.xsd
         http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/3.2/mule-vm.xsd
         http://www.mulesoft.org/schema/mule/ricston http://www.mulesoft.org/schema/mule/ricston/3.2/mule-ricston.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<flow name="MyFlow">
-		<vm:inbound-endpoint path="MyFlowRequest"
-			exchange-pattern="request-response" />
-		<ricston:exception-message-processor-chain>
-			<append-string-transformer message="Sad Path" />
-		</ricston:exception-message-processor-chain>
-		<null-component/>
-		<append-string-transformer message="Happy Path" />
-	</flow>
+    <flow name="MyFlow">
+        <vm:inbound-endpoint path="MyFlowRequest"
+                             exchange-pattern="request-response"/>
+        <ricston:exception-message-processor-chain>
+            <expression-transformer evaluator="groovy" expression="return 'Sad Path'"/>
+        </ricston:exception-message-processor-chain>
+        <null-component/>
+        <append-string-transformer message="Happy Path"/>
+    </flow>
 
 </mule>

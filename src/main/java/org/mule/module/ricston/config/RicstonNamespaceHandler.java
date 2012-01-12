@@ -9,22 +9,22 @@ package org.mule.module.ricston.config;
 
 import org.mule.config.spring.parsers.generic.ChildDefinitionParser;
 import org.mule.config.spring.parsers.specific.RouterDefinitionParser;
+import org.mule.module.ricston.ExceptionProcessorChainFactoryBean;
 import org.mule.module.ricston.IgnoreReplyMulticastingRouter;
 import org.mule.module.ricston.IgnoreReplyPassThroughRouter;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
  * Registers a Bean Definition Parser for handling elements defned in META-INF/mule-ricston.xsd
- *
  */
-public class RicstonNamespaceHandler extends NamespaceHandlerSupport
-{
-    public void init()
-    {
+public class RicstonNamespaceHandler extends NamespaceHandlerSupport {
+    public void init() {
         registerBeanDefinitionParser("ignore-reply-multicasting-router", new RouterDefinitionParser(IgnoreReplyMulticastingRouter.class));
         registerBeanDefinitionParser("ignore-reply-all", new ChildDefinitionParser("messageProcessor", IgnoreReplyMulticastingRouter.class));
-
         registerBeanDefinitionParser("ignore-reply-pass-through-router", new RouterDefinitionParser(IgnoreReplyPassThroughRouter.class));
         registerBeanDefinitionParser("ignore-reply-pass-through", new ChildDefinitionParser("messageProcessor", IgnoreReplyPassThroughRouter.class));
+        registerBeanDefinitionParser("exception-message-processor-chain", new ChildDefinitionParser("messageProcessor", ExceptionProcessorChainFactoryBean.class));
     }
+
+
 }

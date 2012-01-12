@@ -56,4 +56,10 @@
         </xsd:annotation>
     </xsd:element>
 
+     <xsd:element name="exception-message-processor-chain" type="mule:messageProcessorChainType" substitutionGroup="mule:abstract-message-processor">
+        <xsd:annotation>
+            <xsd:documentation>The use of globally defined processor-chain element is deprecated since Mule 3.2.  Use sub-flow instead.</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
 </xsd:schema>
