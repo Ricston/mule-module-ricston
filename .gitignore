@@ -1,3 +1,6 @@
 *.iml
 .DS_Store
 .idea
+.mule
+ObjectStore
+*.log
