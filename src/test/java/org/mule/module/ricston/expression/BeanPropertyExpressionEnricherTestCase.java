@@ -5,11 +5,12 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.module.ricston;
+package org.mule.module.ricston.expression;
 
 import com.mockobjects.dynamic.Mock;
 import org.junit.Test;
 import org.mule.api.MuleMessage;
+import org.mule.module.ricston.expression.BeanPropertyExpressionEnricher;
 
 import static org.junit.Assert.assertEquals;
 

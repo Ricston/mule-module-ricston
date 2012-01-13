@@ -17,7 +17,7 @@
             <xa-transaction action="BEGIN_OR_JOIN"/>
         </vm:inbound-endpoint>
         <idempotent-message-filter>
-            <custom-object-store class="org.mule.module.ricston.TransactionAwareObjectStore"/>
+            <custom-object-store class="org.mule.module.ricston.objectstore.TransactionAwareObjectStore"/>
         </idempotent-message-filter>
         <test:component appendString=" Received"/>
         <vm:outbound-endpoint path="out" exchange-pattern="one-way">

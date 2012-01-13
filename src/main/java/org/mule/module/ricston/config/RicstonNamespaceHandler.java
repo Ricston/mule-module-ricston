@@ -9,9 +9,9 @@ package org.mule.module.ricston.config;
 
 import org.mule.config.spring.parsers.generic.ChildDefinitionParser;
 import org.mule.config.spring.parsers.specific.RouterDefinitionParser;
-import org.mule.module.ricston.ExceptionProcessorChainFactoryBean;
-import org.mule.module.ricston.IgnoreReplyMulticastingRouter;
-import org.mule.module.ricston.IgnoreReplyPassThroughRouter;
+import org.mule.module.ricston.exception.ExceptionProcessorChainFactoryBean;
+import org.mule.module.ricston.processor.IgnoreReplyMulticastingRouter;
+import org.mule.module.ricston.processor.IgnoreReplyPassThroughRouter;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**

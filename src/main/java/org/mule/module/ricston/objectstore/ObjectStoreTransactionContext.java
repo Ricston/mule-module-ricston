@@ -5,7 +5,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.module.ricston;
+package org.mule.module.ricston.objectstore;
 
 import org.mule.util.xa.AbstractTransactionContext;
 import org.mule.util.xa.ResourceManagerException;
