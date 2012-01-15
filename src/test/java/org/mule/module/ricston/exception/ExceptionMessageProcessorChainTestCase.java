@@ -7,12 +7,10 @@
  */
 package org.mule.module.ricston.exception;
 
-import org.junit.Ignore;
 import org.mule.api.MuleMessage;
 import org.mule.module.client.MuleClient;
 import org.mule.tck.FunctionalTestCase;
 
-@Ignore
 public class ExceptionMessageProcessorChainTestCase extends FunctionalTestCase
 {
     protected String getConfigResources()
