@@ -86,7 +86,7 @@ payload is copied onto the original message.
 
 Invokes the next message processor in the flow. If any of the subsequent messages processors throws an exception, the
 Exception Message Processor Chain picks up the exception, creates an exception message (similar behaviour to the
-classical exception handler) and then applies the chain of nested processors which are configured on the it.
+classical exception handler) and then applies the chain of nested processors which are configured on it.
 
 ### Example
 
