@@ -16,29 +16,28 @@ import org.mule.processor.chain.DefaultMessageProcessorChain;
 import java.util.ArrayList;
 
 public class ExceptionMessageProcessorChain extends
-		DefaultMessageProcessorChain {
+        DefaultMessageProcessorChain {
 
-	public ExceptionMessageProcessorChain(String string,
-			ArrayList<MessageProcessor> arrayList) {
-		super(string, arrayList);
-	}
+    public ExceptionMessageProcessorChain(String string, ArrayList<MessageProcessor> arrayList) {
+        super(string, arrayList);
+    }
 
     @Override
-	public MuleEvent process(MuleEvent event) throws MuleException {
-		MuleEvent result = null;
-		try {
-			result = processNext(event);
-		} catch (Exception e) {
-			logger.info("Caught Exception");
-			event.getMessage().setPayload(
-					new ExceptionMessage(event, e, event.getFlowConstruct()
-							.getName(), null));
-			logger.info("Invoking processor chain");
-			result = doProcess(event);
-			logger.info("Got result from processor chain="
-					+ result.getMessageAsString());
-		}
+    public MuleEvent process(MuleEvent event) throws MuleException {
+        MuleEvent result = null;
+        try {
+            result = processNext(event);
+        } catch (Exception e) {
+            logger.info("Caught Exception");
+            event.getMessage().setPayload(
+                    new ExceptionMessage(event, e, event.getFlowConstruct()
+                            .getName(), null));
+            logger.info("Invoking processor chain");
+            result = doProcess(event);
+            logger.info("Got result from processor chain="
+                    + result.getMessageAsString());
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

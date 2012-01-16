@@ -34,12 +34,12 @@ payload is copied onto the original message.
 
 ```xml
 <mule xmlns="http://www.mulesoft.org/schema/mule/core"
-      xmlns:ricston="http://www.mulesoft.org/schema/mule/ricston"
+      xmlns:ricston="http://www.ricston.com/schema/mule/ricston"
       ...
       xsi:schemaLocation="
         ...
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
-        http://www.mulesoft.org/schema/mule/ricston http://www.mulesoft.org/schema/mule/ricston/3.2/mule-ricston.xsd">
+        http://www.ricston.com/schema/mule/ricston http://www.ricston.com/schema/mule/ricston/3.2/mule-ricston.xsd">
 
     <flow name="IgnoreAll">
         ...
@@ -64,18 +64,46 @@ payload is copied onto the original message.
 
 ```xml
 <mule xmlns="http://www.mulesoft.org/schema/mule/core"
-      xmlns:ricston="http://www.mulesoft.org/schema/mule/ricston"
+      xmlns:ricston="http://www.ricston.com/schema/mule/ricston"
       ...
       xsi:schemaLocation="
         ...
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
-        http://www.mulesoft.org/schema/mule/ricston http://www.mulesoft.org/schema/mule/ricston/3.2/mule-ricston.xsd">
+        http://www.ricston.com/schema/mule/ricston http://www.ricston.com/schema/mule/ricston/3.2/mule-ricston.xsd">
 
     <flow name="Ignore">
         ...
         <ricston:ignore-reply-pass-through>
             <vm:outbound-endpoint path="sync.in" exchange-pattern="request-response" transformer-refs="appendTest1"/>
         </ricston:ignore-reply-pass-through>
+        ...
+    </flow>
+    ...
+</mule>
+```
+
+## Exception Message Processor Chain
+
+Invokes the next message processor in the flow. If any of the subsequent messages processors throws an exception, the
+Exception Message Processor Chain picks up the exception, creates an exception message (similar behaviour to the
+classical exception handler) and then applies the chain of nested processors which are configured on the it.
+
+### Example
+
+```xml
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:ricston="http://www.ricston.com/schema/mule/ricston"
+      ...
+      xsi:schemaLocation="
+        ...
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+        http://www.ricston.com/schema/mule/ricston http://www.ricston.com/schema/mule/ricston/3.2/mule-ricston.xsd">
+
+    <flow name="ExceptionMessageProcessorChain">
+        ...
+        <ricston:exception-message-processor-chain>
+           <expression-transformer evaluator="groovy" expression="return 'Sad Path'"/>
+        </ricston:exception-message-processor-chain>
         ...
     </flow>
     ...

@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) Ricston Ltd.  All rights reserved.  http://www.ricston.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
 package org.mule.module.ricston.config;
 
 import java.util.ArrayList;
@@ -11,46 +18,35 @@ import org.mule.api.processor.MessageProcessorChain;
 import org.mule.module.ricston.exception.ExceptionMessageProcessorChain;
 import org.mule.processor.chain.DefaultMessageProcessorChainBuilder;
 
-public class ExceptionMessageProcessorChainBuilder extends DefaultMessageProcessorChainBuilder{
-    
-	public MessageProcessorChain build() throws MuleException
-    {
+public class ExceptionMessageProcessorChainBuilder extends DefaultMessageProcessorChainBuilder {
+
+    public MessageProcessorChain build() throws MuleException {
         LinkedList<MessageProcessor> tempList = new LinkedList<MessageProcessor>();
 
         // Start from last but one message processor and work backwards
-        for (int i = processors.size() - 1; i >= 0; i--)
-        {
+        for (int i = processors.size() - 1; i >= 0; i--) {
             MessageProcessor processor = initializeMessageProcessor(processors.get(i));
-            if (processor instanceof InterceptingMessageProcessor)
-            {
+            if (processor instanceof InterceptingMessageProcessor) {
                 InterceptingMessageProcessor interceptingProcessor = (InterceptingMessageProcessor) processor;
                 // Processor is intercepting so we can't simply iterate
-                if (i + 1 < processors.size())
-                {
+                if (i + 1 < processors.size()) {
                     // The current processor is not the last in the list
-                    if (tempList.isEmpty())
-                    {
+                    if (tempList.isEmpty()) {
                         interceptingProcessor.setListener(initializeMessageProcessor(processors.get(i + 1)));
-                    }
-                    else if (tempList.size() == 1)
-                    {
+                    } else if (tempList.size() == 1) {
                         interceptingProcessor.setListener(tempList.get(0));
-                    }
-                    else
-                    {
+                    } else {
                         final ExceptionMessageProcessorChain chain = new ExceptionMessageProcessorChain(
-                            "(inner iterating chain) of " + name, new ArrayList<MessageProcessor>(tempList));
+                                "(inner iterating chain) of " + name, new ArrayList<MessageProcessor>(tempList));
                         interceptingProcessor.setListener(chain);
                     }
                 }
                 tempList = new LinkedList<MessageProcessor>(Collections.singletonList(processor));
-            }
-            else
-            {
+            } else {
                 tempList.addFirst(initializeMessageProcessor(processor));
             }
         }
-        return new ExceptionMessageProcessorChain(name,new ArrayList<MessageProcessor>(tempList));
+        return new ExceptionMessageProcessorChain(name, new ArrayList<MessageProcessor>(tempList));
     }
 
 }

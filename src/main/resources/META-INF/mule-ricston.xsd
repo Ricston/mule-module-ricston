@@ -3,25 +3,27 @@
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:mule="http://www.mulesoft.org/schema/mule/core"
             xmlns:schemadoc="http://www.mulesoft.org/schema/mule/schemadoc"
-            targetNamespace="http://www.mulesoft.org/schema/mule/ricston"
+            targetNamespace="http://www.ricston.com/schema/mule/ricston"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
 
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:import namespace="http://www.mulesoft.org/schema/mule/core"
-                schemaLocation="http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd" />
-    <xsd:import namespace = "http://www.mulesoft.org/schema/mule/schemadoc"
-                schemaLocation = "http://www.mulesoft.org/schema/mule/schemadoc/3.2/mule-schemadoc.xsd"/>
+                schemaLocation="http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd"/>
+    <xsd:import namespace="http://www.mulesoft.org/schema/mule/schemadoc"
+                schemaLocation="http://www.mulesoft.org/schema/mule/schemadoc/3.2/mule-schemadoc.xsd"/>
 
     <xsd:annotation>
-        <xsd:documentation>The Mule Ricston Module solves common problems encountered during Mule application development</xsd:documentation>
+        <xsd:documentation>The Mule Ricston Module solves common problems encountered during Mule application
+            development
+        </xsd:documentation>
         <xsd:appinfo>
             <schemadoc:short-name>Ricston</schemadoc:short-name>
             <schemadoc:page-title>Ricston Module</schemadoc:page-title>
         </xsd:appinfo>
     </xsd:annotation>
 
-    
+
     <xsd:element name="ignore-reply-multicasting-router" type="mule:multipleEndpointFilteringOutboundRouterType"
                  substitutionGroup="mule:abstract-outbound-router">
         <xsd:annotation>
@@ -30,15 +32,18 @@
             </xsd:documentation>
         </xsd:annotation>
     </xsd:element>
-    
-    <xsd:element name="ignore-reply-all" type="mule:baseMultipleRoutesRoutingMessageProcessorType" substitutionGroup="mule:abstract-routing-message-processor">
+
+    <xsd:element name="ignore-reply-all" type="mule:baseMultipleRoutesRoutingMessageProcessorType"
+                 substitutionGroup="mule:abstract-routing-message-processor">
         <xsd:annotation>
             <xsd:documentation>
-                Sends the same message to multiple message processors or outbound endpoints but returns the original payload.
+                Sends a message to each nested message processor while ignoring their replies. The Ignore Reply All
+                forwards the original message to the next message processor. Note that in case of exceptions from the
+                nested message processors, the exception payload is copied onto the original message.
             </xsd:documentation>
         </xsd:annotation>
     </xsd:element>
-    
+
     <xsd:element name="ignore-reply-pass-through-router" type="mule:outboundRouterType"
                  substitutionGroup="mule:abstract-outbound-router">
         <xsd:annotation>
@@ -47,18 +52,26 @@
             </xsd:documentation>
         </xsd:annotation>
     </xsd:element>
-    
-    <xsd:element name="ignore-reply-pass-through" type="mule:baseSingleRouteRoutingMessageProcessorType" substitutionGroup="mule:abstract-routing-message-processor">
+
+    <xsd:element name="ignore-reply-pass-through" type="mule:baseSingleRouteRoutingMessageProcessorType"
+                 substitutionGroup="mule:abstract-routing-message-processor">
         <xsd:annotation>
             <xsd:documentation>
-                Sends the message to a single message processors or outbound endpoints but returns the original payload.
+                Sends a message to a nested message processor while ignoring its reply. The Ignore Reply Pass Through
+                forwards the original message to the next message processor. Note that in case of exceptions from the nested message
+                processor, the exception payload is copied onto the original message.
             </xsd:documentation>
         </xsd:annotation>
     </xsd:element>
 
-     <xsd:element name="exception-message-processor-chain" type="mule:messageProcessorChainType" substitutionGroup="mule:abstract-message-processor">
+    <xsd:element name="exception-message-processor-chain" type="mule:messageProcessorChainType"
+                 substitutionGroup="mule:abstract-message-processor">
         <xsd:annotation>
-            <xsd:documentation>The use of globally defined processor-chain element is deprecated since Mule 3.2.  Use sub-flow instead.</xsd:documentation>
+            <xsd:documentation>
+                Invokes the next message processor in the flow. If any of the subsequent messages processors throws an
+                exception, the Exception Message Processor Chain picks up the exception, creates an exception message
+                and then applies the chain of nested processors which are configured on the it.
+            </xsd:documentation>
         </xsd:annotation>
     </xsd:element>
 

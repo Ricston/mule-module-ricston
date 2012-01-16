@@ -1,1 +1,1 @@
-http\://www.mulesoft.org/schema/mule/ricston=org.mule.module.ricston.config.RicstonNamespaceHandler
+http\://www.ricston.com/schema/mule/ricston=org.mule.module.ricston.config.RicstonNamespaceHandler
