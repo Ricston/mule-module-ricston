@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class TransactionAwareObjectStore<T extends Serializable> implements ListableObjectStore<T>, Initialisable, MuleContextAware {
 
@@ -34,7 +33,6 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
     private int maxEntries = 0;
     private int entryTTL;
     private int expirationInterval;
-    private ReentrantLock lock;
 
     public ObjectStoreXAResourceManager getResourceManager() {
         return resourceManager;
@@ -88,7 +86,6 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
     @Override
     public void initialise() throws InitialisationException {
         try {
-            lock = new ReentrantLock(true);
             resourceManager = new ObjectStoreXAResourceManager(this, muleContext);
             resourceManager.start();
         } catch (Exception e) {
@@ -131,16 +128,6 @@ public class TransactionAwareObjectStore<T extends Serializable> implements List
 
         } catch (Exception e) {
             throw new ObjectStoreException(e);
-        }
-    }
-
-    public void lockStore() {
-        lock.lock();
-    }
-
-    public void unlockStore() {
-        if (lock.isHeldByCurrentThread()) {
-            lock.unlock();
         }
     }
 

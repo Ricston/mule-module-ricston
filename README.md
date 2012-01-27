@@ -109,3 +109,33 @@ classical exception handler) and then applies the chain of nested processors whi
     ...
 </mule>
 ```
+
+## Transaction Aware Object Store
+
+An object store which can join an XA transaction. This could be used, for example, to make the idempotent message filter
+participate in a transaction.
+
+### Example
+
+```xml
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      ...
+      xsi:schemaLocation="
+        ...
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd">
+
+    <flow name="main">
+        <vm:inbound-endpoint path="in" exchange-pattern="one-way">
+            <xa-transaction action="BEGIN_OR_JOIN"/>
+        </vm:inbound-endpoint>
+        <idempotent-message-filter>
+            <custom-object-store class="org.mule.module.ricston.objectstore.TransactionAwareObjectStore"/>
+        </idempotent-message-filter>
+        <test:component appendString=" Received"/>
+        <vm:outbound-endpoint path="out" exchange-pattern="one-way">
+            <xa-transaction action="ALWAYS_JOIN"/>
+        </vm:outbound-endpoint>
+    </flow>
+    ...
+</mule>
+```

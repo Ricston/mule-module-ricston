@@ -9,10 +9,7 @@ package org.mule.module.ricston.objectstore;
 
 import org.mule.api.MuleContext;
 import org.mule.api.config.MuleProperties;
-import org.mule.api.store.ListableObjectStore;
-import org.mule.api.store.ObjectStore;
-import org.mule.api.store.ObjectStoreException;
-import org.mule.api.store.ObjectStoreManager;
+import org.mule.api.store.*;
 import org.mule.util.Base64;
 import org.mule.util.xa.AbstractTransactionContext;
 import org.mule.util.xa.AbstractXAResourceManager;
@@ -83,12 +80,18 @@ public class ObjectStoreXAResourceManager extends AbstractXAResourceManager {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             Map.Entry<Serializable, Serializable> obj = ((ObjectStoreTransactionContext) context).getObject();
             Xid xid = getXid(context);
+            String encodedTransactionId = encode(xid.getGlobalTransactionId());
 
             objectOutputStream.writeObject(xid);
             objectOutputStream.close();
 
-            objectStore.lockStore();
-            transactionLog.store(encode(xid.getGlobalTransactionId()), obj.getKey() + ":" + obj.getValue() + ":" + encode(byteArrayOutputStream.toByteArray()));
+            synchronized (this) {
+                // we assume that if the object is found in the transactionLog than that object will be committed
+                if (objectStore.contains(obj.getKey()) || transactionLog.contains(encodedTransactionId)) {
+                    throw new ObjectAlreadyExistsException();
+                }
+                transactionLog.store(encodedTransactionId, obj.getKey() + ":" + obj.getValue() + ":" + encode(byteArrayOutputStream.toByteArray()));
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -118,12 +121,12 @@ public class ObjectStoreXAResourceManager extends AbstractXAResourceManager {
     protected void doCommit(AbstractTransactionContext transactionContext) throws ResourceManagerException {
         ObjectStoreTransactionContext objectStoreTransactionContext = (ObjectStoreTransactionContext) transactionContext;
         try {
-            objectStore.store(objectStoreTransactionContext.getObject().getKey(), objectStoreTransactionContext.getObject().getValue());
+            synchronized (this) {
+                objectStore.store(objectStoreTransactionContext.getObject().getKey(), objectStoreTransactionContext.getObject().getValue());
+            }
             transactionLog.remove(encode(getXid(transactionContext).getGlobalTransactionId()));
         } catch (Exception e) {
             throw new ResourceManagerSystemException(e);
-        } finally {
-            objectStore.unlockStore();
         }
     }
 
@@ -141,8 +144,6 @@ public class ObjectStoreXAResourceManager extends AbstractXAResourceManager {
             }
         } catch (Exception e) {
             throw new ResourceManagerSystemException(e);
-        } finally {
-            objectStore.unlockStore();
         }
     }
 
