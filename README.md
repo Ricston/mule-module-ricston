@@ -124,6 +124,8 @@ participate in transactions.
         ...
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd">
 
+    <jbossts:transaction-manager/>
+
     <flow name="TransactionAwareObjectStore">
         <vm:inbound-endpoint path="in" exchange-pattern="one-way">
             <xa-transaction action="BEGIN_OR_JOIN"/>
