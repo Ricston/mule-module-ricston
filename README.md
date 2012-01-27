@@ -113,7 +113,7 @@ classical exception handler) and then applies the chain of nested processors whi
 ## Transaction Aware Object Store
 
 An object store which can join an XA transaction. This could be used, for example, to make the idempotent message filter
-participate in a transaction.
+participate in transactions.
 
 ### Example
 
